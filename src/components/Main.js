@@ -1,18 +1,21 @@
 import { api } from '../utils/Api.js';
 import { useState, useEffect } from 'react';
+import Card from './Card';
 
 export default function Main(props) {
 
   const [userName, setUserName] = useState('');
   const [userDescription, setUserDescription] = useState('');
   const [userAvatar, setUserAvatar] = useState('http://');
+  const [cards, setCards] = useState([]);
 
   useEffect(() => {
-    api.getUserInfo()
-    .then(info => {
+    Promise.all([api.getUserInfo(), api.getInitialCards()])
+    .then(([info, cards]) => {
       setUserName(info.name);
       setUserDescription(info.about);
       setUserAvatar(info.avatar);
+      setCards(cards);
     })
     .catch(err => {console.log(err)});
   });
@@ -39,6 +42,7 @@ export default function Main(props) {
       </section>
       <section className="places body__element">
         <ul className="places__list body__element">
+          {cards.map(card => <Card card={card} key={card._id}/>)}
         </ul>
       </section>
     </main>
