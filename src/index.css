@@ -55,6 +55,10 @@
 
 /* popup section */
 @import url(./blocks/popup/popup.css);
+@import url(./blocks/popup/_type/popup_type_add-place.css);
+@import url(./blocks/popup/_type/popup_type_confirm-delete.css);
+@import url(./blocks/popup/_type/popup_type_edit-avatar.css);
+@import url(./blocks/popup/_type/popup_type_edit-profile.css);
 @import url(./blocks/popup/_transparent/popup_transparent_slightly.css);
 @import url(./blocks/popup/_transparent/popup_transparent_medium.css);
 @import url(./blocks/popup/_opened/popup_opened.css);
