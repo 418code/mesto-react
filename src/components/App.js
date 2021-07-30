@@ -2,6 +2,7 @@ import Header from './Header';
 import Main from './Main';
 import Footer from './Footer';
 import PopupWithForm from './PopupWithForm';
+import ImagePopup from './ImagePopup';
 import {popupConfig} from '../utils/constants.js';
 
 export default function App() {
@@ -31,14 +32,7 @@ export default function App() {
         </PopupWithForm>
         <PopupWithForm name={popupConfig.cardConfirmDeletePopupAndFormName} formTitle="Вы уверены?" submitButtonText="Да">
         </PopupWithForm>
-
-        <div className="popup popup_transparent_slightly" id="showPhoto">
-          <div className="popup__container">
-            <button className="popup__container-close-btn transparent transparent_amount_more" type="button" aria-label="Кнопка закрытия попапа"></button>
-            <img src="#" alt="#" className="popup__photo" />
-            <p className="popup__photo-description"></p>
-          </div>
-        </div>
-      </div>
+        <ImagePopup />
+    </div>
   );
 }
