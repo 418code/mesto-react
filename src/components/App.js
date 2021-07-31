@@ -8,10 +8,13 @@ import {popupConfig} from '../utils/constants.js';
 
 export default function App() {
 
+  const emptyCard = {link: '', name: ''};
+
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
   const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = useState(false);
   const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = useState(false);
   const [isConfirmDeletePopupOpen, setIsConfirmDeletePopupOpen] = useState(false);
+  const [selectedCard, setSelectedCard] = useState(emptyCard);
 
 
   const handleEditAvatarClick = () => {
@@ -29,17 +32,22 @@ export default function App() {
     setIsAddPlacePopupOpen(true);
   };
 
+  const handleCardClick = (card) => {
+    setSelectedCard(card);
+  };
+
   const closeAllPopups = () => {
     setIsEditProfilePopupOpen(false);
     setIsAddPlacePopupOpen(false);
     setIsEditAvatarPopupOpen(false);
     setIsConfirmDeletePopupOpen(false);
+    setSelectedCard(emptyCard);
   };
 
   return (
     <div className="page body__element">
         <Header />
-        <Main onEditProfile={handleEditProfileClick} onAddPlace={handleAddPlaceClick} onEditAvatar={handleEditAvatarClick} />
+        <Main onEditProfile={handleEditProfileClick} onAddPlace={handleAddPlaceClick} onEditAvatar={handleEditAvatarClick} onCardClick={handleCardClick}/>
         <Footer />
         <PopupWithForm name={popupConfig.profileEditPopupAndFormName} formTitle="Редактировать профиль" submitButtonText="Сохранить" isOpen={isEditProfilePopupOpen}
           onClose={closeAllPopups}>
@@ -65,7 +73,7 @@ export default function App() {
         </PopupWithForm>
         <PopupWithForm name={popupConfig.cardConfirmDeletePopupAndFormName} formTitle="Вы уверены?" submitButtonText="Да" isOpen={isConfirmDeletePopupOpen}
           onClose={closeAllPopups} />
-        <ImagePopup />
+        <ImagePopup card={selectedCard} onClose={closeAllPopups}/>
     </div>
   );
 }

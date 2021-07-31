@@ -42,7 +42,7 @@ export default function Main(props) {
       </section>
       <section className="places body__element">
         <ul className="places__list body__element">
-          {cards.map(card => <Card card={card} key={card._id}/>)}
+          {cards.map(card => <Card card={card} key={card._id} onCardClick={props.onCardClick}/>)}
         </ul>
       </section>
     </main>
