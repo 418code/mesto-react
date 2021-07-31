@@ -26,7 +26,8 @@ export default function Main(props) {
         <div className="profile__pic-info-container">
           <div className="profile__pic-container">
             <img src={userAvatar} alt="фото аккаунта" className="profile__pic" />
-            <button className="profile__avatar-edit-button transparent transparent_amount_much-more" onClick={props.onEditAvatar}></button>
+            <button className="profile__avatar-edit-button transparent transparent_amount_much-more"
+                    type="button" aria-label="Кнопка редактирования аватара" onClick={props.onEditAvatar}></button>
           </div>
           <div className="profile__info">
             <div className="profile__name-edit-wrap">
