@@ -1,70 +1,55 @@
-# Getting Started with Create React App
+# Project Mesto React (The Place) - Yandex Practicum web development program
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+[По-русски](./README-RU.md)
 
-## Available Scripts
+## Description
 
-In the project directory, you can run:
+A photo sharing React web app\
+Sprints: 10 -
 
-### `npm start`
+## Technologies used
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+JavaScript
+- refactor [sprints 4-9](https://github.com/bliss-code/mesto/) objective JavaScript web app with React
+- React: CRA, functional components, state and effect hooks
+- Api object for async calls to server
+- api use to create, delete, like a card, load cards, load and edit profile info and avatar
+- import and export of modules
+- editable profile information with interactive popups
+- place card addition with a popup
+- place card delete confirm popup to remove only the current user's cards
+- enlarge photo from place card in a popup
+- place card like functionality with number of likes shown
+- custom form validation
+- close popup with a click on overlay and with the Esc key
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+CSS
+- responsive layout with flexbox/grid and media queries
+- buttons changing opacity with transition mix-in
+- smooth popup fade in and out
+- card photo flip on hover
+- custom fonts imported
+- normalize.css
 
-### `npm test`
+HTML
+- semantic tags
+- emmet abbreviations
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+Figma
+- [Sprint 4 Figma design](https://www.figma.com/file/2cn9N9jSkmxD84oJik7xL7/JavaScript.-Sprint-4?node-id=0%3A1)
+- [Sprint 5 Figma design](https://www.figma.com/file/bjyvbKKJN2naO0ucURl2Z0/JavaScript.-Sprint-5?node-id=0%3A1)
+- [Sprint 9 Figma design](https://www.figma.com/file/hhhIavVTeuilfPPZ6sbifl/JavaScript.-Sprint-9?node-id=0%3A1)
+- implement 320px and 1280px designs
 
-### `npm run build`
+BEM
+- CSS classes organized according to Block Element Modifier system
+- files organized with BEM nested file structure
+- CSS files imported from BEM folders with @import
+- [DIY bash script for dealing with nested BEM file structure](https://github.com/bliss-code/instruments)
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+Git
+- gitflow workflow
+- commands: commit, log, status, diff, branch, merge, push, pull
+- commits organization: feat, fix, refactor
+- GitHub pages
+- SSH
