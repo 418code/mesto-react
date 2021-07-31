@@ -18,17 +18,14 @@ export default function App() {
 
 
   const handleEditAvatarClick = () => {
-    const avatarEditPopup = document.querySelector(`${popupConfig.popupSelectorPrefix+popupConfig.profileAvatarEditPopupAndFormName}`);
     setIsEditAvatarPopupOpen(true);
   };
 
   const handleEditProfileClick = () => {
-    const profileEditPopup = document.querySelector(`${popupConfig.popupSelectorPrefix+popupConfig.profileEditPopupAndFormName}`);
     setIsEditProfilePopupOpen(true);
   };
 
   const handleAddPlaceClick = () => {
-    const addCardPopup = document.querySelector(`${popupConfig.popupSelectorPrefix+popupConfig.profileAddPopupAndFormName}`);
     setIsAddPlacePopupOpen(true);
   };
 
