@@ -1,4 +1,10 @@
+import { useContext } from 'react';
+import { CurrentUserContext } from '../contexts/CurrentUserContext';
+
 export default function Card(props) {
+
+  //subscribe to context
+  const currentUser = useContext(CurrentUserContext);
 
   const handleCardClick = () => {
     props.onCardClick(props.card);
