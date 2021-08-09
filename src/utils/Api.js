@@ -82,21 +82,12 @@ class Api {
   }
 
   /**
-   * Adds a like to a card
+   * Changes card like state on the server
    * @param {String} cardId
    * @returns {Promise}
    */
-  likeCard(cardId) {
-    return this._fetchPath(`cards/likes/${cardId}`, 'PUT');
-  }
-
-  /**
-   * Removes a card's like from the server
-   * @param {String} cardId
-   * @returns {Promise}
-   */
-  unlikeCard(cardId) {
-    return this._fetchPath(`cards/likes/${cardId}`, 'DELETE');
+  changeLikeCardStatus(cardId, isLiked) {
+    return this._fetchPath(`cards/likes/${cardId}`, isLiked ? 'DELETE' : 'PUT');
   }
 }
 

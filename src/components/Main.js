@@ -19,6 +19,17 @@ export default function Main(props) {
     .catch(err => {console.log(err)});
   }, []);
 
+  function handleCardLike(card) {
+    const isLiked = card.likes.some(like => like._id === currentUser._id);
+
+    api.changeLikeCardStatus(card._id, isLiked)
+    .then((newCard) => {
+      const newCards = cards.map(c => c._id === card._id ? newCard : c);
+      setCards(newCards);
+    })
+    .catch(err => {console.log(err)});
+  }
+
   return (
     <main className="content body__element">
       <section className="profile body__element">
@@ -42,7 +53,7 @@ export default function Main(props) {
       </section>
       <section className="places body__element">
         <ul className="places__list body__element">
-          {cards.map(card => <Card card={card} key={card._id} onCardClick={props.onCardClick}/>)}
+          {cards.map(card => <Card card={card} key={card._id} onCardClick={props.onCardClick} onCardLike={handleCardLike} />)}
         </ul>
       </section>
     </main>
