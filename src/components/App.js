@@ -4,6 +4,7 @@ import Header from './Header';
 import Main from './Main';
 import Footer from './Footer';
 import EditProfilePopup from './EditProfilePopup';
+import EditAvatarPopup from './EditAvatarPopup';
 import PopupWithForm from './PopupWithForm';
 import ImagePopup from './ImagePopup';
 import {popupConfig} from '../utils/constants.js';
@@ -57,6 +58,17 @@ export default function App() {
     .catch(err => {console.log(err)});
   };
 
+  const handleAvatarUpdate = ({avatar}) => {
+    api.setUserAvatar(avatar)
+    .then(res => {
+      const userInfo = {...currentUser};
+      userInfo.avatar = avatar;
+      setCurrentUser(userInfo);
+      closeAllPopups();
+    })
+    .catch(err => {console.log(err)});
+  };
+
   const closeAllPopups = () => {
     setIsEditProfilePopupOpen(false);
     setIsAddPlacePopupOpen(false);
@@ -80,11 +92,7 @@ export default function App() {
             <input id="popup__place-url-input" type="url" name="placeUrl" className="popup__form-text" placeholder="Ссылка на картинку" required="required" />
             <span className="popup__place-url-input-error popup__form-text-error">Введите адрес сайта.</span>
           </PopupWithForm>
-          <PopupWithForm name={popupConfig.profileAvatarEditPopupAndFormName} formTitle="Обновить аватар" submitButtonText="Сохранить" isOpen={isEditAvatarPopupOpen}
-            onClose={closeAllPopups}>
-            <input id="popup__profile-avatar-url-input" type="url" name="avatarUrl" className="popup__form-text" placeholder="Ссылка на аватар" required="required" />
-            <span className="popup__profile-avatar-url-input-error popup__form-text-error">Введите адрес аватара.</span>
-          </PopupWithForm>
+          <EditAvatarPopup isOpen={isEditAvatarPopupOpen} onClose={closeAllPopups} onUpdateAvatar={handleAvatarUpdate} />
           <PopupWithForm name={popupConfig.cardConfirmDeletePopupAndFormName} formTitle="Вы уверены?" submitButtonText="Да" isOpen={isConfirmDeletePopupOpen}
             onClose={closeAllPopups} />
           <ImagePopup card={selectedCard} onClose={closeAllPopups}/>
