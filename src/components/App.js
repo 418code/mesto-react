@@ -3,6 +3,7 @@ import { api } from '../utils/Api.js';
 import Header from './Header';
 import Main from './Main';
 import Footer from './Footer';
+import EditProfilePopup from './EditProfilePopup';
 import PopupWithForm from './PopupWithForm';
 import ImagePopup from './ImagePopup';
 import {popupConfig} from '../utils/constants.js';
@@ -47,6 +48,15 @@ export default function App() {
     setSelectedCard(card);
   };
 
+  const handleUserUpdate = ({name, about}) => {
+    api.setUserInfo({name, about})
+    .then(info => {
+      setCurrentUser(info);
+      closeAllPopups();
+    })
+    .catch(err => {console.log(err)});
+  };
+
   const closeAllPopups = () => {
     setIsEditProfilePopupOpen(false);
     setIsAddPlacePopupOpen(false);
@@ -61,15 +71,7 @@ export default function App() {
           <Header />
           <Main onEditProfile={handleEditProfileClick} onAddPlace={handleAddPlaceClick} onEditAvatar={handleEditAvatarClick} onCardClick={handleCardClick}/>
           <Footer />
-          <PopupWithForm name={popupConfig.profileEditPopupAndFormName} formTitle="Редактировать профиль" submitButtonText="Сохранить" isOpen={isEditProfilePopupOpen}
-            onClose={closeAllPopups}>
-            <input id="popup__profile-name-input" type="text" name="profileName"
-              className="popup__form-text" placeholder="Жак-Ив Кусто" minLength="2" maxLength="40" required="required" />
-            <span className="popup__profile-name-input-error popup__form-text-error">Вы пропустили это поле.</span>
-            <input id="popup__profile-description-input" type="text" name="profileDescription"
-              className="popup__form-text" placeholder="Исследователь океана" minLength="2" maxLength="200" required="required" />
-            <span className="popup__profile-description-input-error popup__form-text-error">Вы пропустили это поле.</span>
-          </PopupWithForm>
+          <EditProfilePopup isOpen={isEditProfilePopupOpen} onClose={closeAllPopups} onUpdateUser={handleUserUpdate} />
           <PopupWithForm name={popupConfig.profileAddPopupAndFormName} formTitle="Новое место" submitButtonText="Создать" isOpen={isAddPlacePopupOpen}
             onClose={closeAllPopups}>
             <input id="popup__place-name-input" type="text" name="placeName"
