@@ -30,6 +30,16 @@ export default function Main(props) {
     .catch(err => {console.log(err)});
   }
 
+  function handleCardDelete(card) {
+
+    api.deleteCard(card._id)
+    .then(res => {
+      const newCards = cards.filter(c => c._id != card._id);
+      setCards(newCards);
+    })
+    .catch(err => console.log(err));
+  }
+
   return (
     <main className="content body__element">
       <section className="profile body__element">
@@ -53,7 +63,7 @@ export default function Main(props) {
       </section>
       <section className="places body__element">
         <ul className="places__list body__element">
-          {cards.map(card => <Card card={card} key={card._id} onCardClick={props.onCardClick} onCardLike={handleCardLike} />)}
+          {cards.map(card => <Card card={card} key={card._id} onCardClick={props.onCardClick} onCardLike={handleCardLike} onCardDelete={handleCardDelete} />)}
         </ul>
       </section>
     </main>
