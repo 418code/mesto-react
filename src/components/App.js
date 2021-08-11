@@ -22,7 +22,7 @@ export default function App() {
   const [selectedCard, setSelectedCard] = useState(emptyCard);
 
   //context state variables
-  const [currentUser, setCurrentUser] = useState({});
+  const [currentUser, setCurrentUser] = useState({name: '', about: '', avatar: '', _id: '', cohort: ''});
   const [cards, setCards] = useState([]);
 
   useEffect(() => {
