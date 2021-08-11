@@ -5,6 +5,7 @@ import Main from './Main';
 import Footer from './Footer';
 import EditProfilePopup from './EditProfilePopup';
 import EditAvatarPopup from './EditAvatarPopup';
+import AddPlacePopup from './AddPlacePopup';
 import PopupWithForm from './PopupWithForm';
 import ImagePopup from './ImagePopup';
 import {popupConfig} from '../utils/constants.js';
@@ -22,12 +23,14 @@ export default function App() {
 
   //context state variables
   const [currentUser, setCurrentUser] = useState({});
+  const [cards, setCards] = useState([]);
 
   useEffect(() => {
     //get api data on mount in parallel and put it in react state variables
-    api.getUserInfo()
-    .then(info => {
+    Promise.all([api.getUserInfo(), api.getInitialCards()])
+    .then(([info, cards]) => {
       setCurrentUser(info);
+      setCards(cards);
     })
     .catch(err => {console.log(err)});
   }, []);
@@ -49,6 +52,26 @@ export default function App() {
     setSelectedCard(card);
   };
 
+  function handleCardLike(card) {
+    const isLiked = card.likes.some(like => like._id === currentUser._id);
+
+    api.changeLikeCardStatus(card._id, isLiked)
+    .then((newCard) => {
+      const newCards = cards.map(c => c._id === card._id ? newCard : c);
+      setCards(newCards);
+    })
+    .catch(err => {console.log(err)});
+  }
+
+  function handleCardDelete(card) {
+    api.deleteCard(card._id)
+    .then(res => {
+      const newCards = cards.filter(c => c._id != card._id);
+      setCards(newCards);
+    })
+    .catch(err => console.log(err));
+  }
+
   const handleUserUpdate = ({name, about}) => {
     api.setUserInfo({name, about})
     .then(info => {
@@ -69,6 +92,18 @@ export default function App() {
     .catch(err => {console.log(err)});
   };
 
+  const handleAddPlaceSubmit = (evt, {name, link}) => {
+    evt.preventDefault();
+
+    api.addCard({name, link})
+    .then(card => {
+      const newCards = [...cards, card];
+      setCards(newCards);
+      closeAllPopups();
+    })
+    .catch(err => {console.log(err)});
+  };
+
   const closeAllPopups = () => {
     setIsEditProfilePopupOpen(false);
     setIsAddPlacePopupOpen(false);
@@ -81,17 +116,11 @@ export default function App() {
     <CurrentUserContext.Provider value={currentUser}>
       <div className="page body__element">
           <Header />
-          <Main onEditProfile={handleEditProfileClick} onAddPlace={handleAddPlaceClick} onEditAvatar={handleEditAvatarClick} onCardClick={handleCardClick}/>
+          <Main onEditProfile={handleEditProfileClick} onAddPlace={handleAddPlaceClick} onEditAvatar={handleEditAvatarClick} onCardClick={handleCardClick}
+            cards={cards} onCardLike={handleCardLike} onCardDelete={handleCardDelete} />
           <Footer />
           <EditProfilePopup isOpen={isEditProfilePopupOpen} onClose={closeAllPopups} onUpdateUser={handleUserUpdate} />
-          <PopupWithForm name={popupConfig.profileAddPopupAndFormName} formTitle="Новое место" submitButtonText="Создать" isOpen={isAddPlacePopupOpen}
-            onClose={closeAllPopups}>
-            <input id="popup__place-name-input" type="text" name="placeName"
-              className="popup__form-text" placeholder="Название" minLength="2" maxLength="30" required="required" />
-            <span className="popup__place-name-input-error popup__form-text-error">Вы пропустили это поле.</span>
-            <input id="popup__place-url-input" type="url" name="placeUrl" className="popup__form-text" placeholder="Ссылка на картинку" required="required" />
-            <span className="popup__place-url-input-error popup__form-text-error">Введите адрес сайта.</span>
-          </PopupWithForm>
+          <AddPlacePopup isOpen={isAddPlacePopupOpen} onClose={closeAllPopups} onAddPlace={handleAddPlaceSubmit} />
           <EditAvatarPopup isOpen={isEditAvatarPopupOpen} onClose={closeAllPopups} onUpdateAvatar={handleAvatarUpdate} />
           <PopupWithForm name={popupConfig.cardConfirmDeletePopupAndFormName} formTitle="Вы уверены?" submitButtonText="Да" isOpen={isConfirmDeletePopupOpen}
             onClose={closeAllPopups} />
