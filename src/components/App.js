@@ -116,7 +116,7 @@ export default function App() {
 
     api.addCard({name, link})
     .then(card => {
-      const newCards = [...cards, card];
+      const newCards = [card, ...cards];
       setCards(newCards);
       closeAllPopups();
     })
