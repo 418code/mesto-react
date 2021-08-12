@@ -11,7 +11,7 @@ Sprints: 10 -
 
 JavaScript
 - refactor [sprints 4-9](https://github.com/bliss-code/mesto/) objective JavaScript web app with React
-- React: CRA, functional components, state and effect hooks
+- React: CRA, functional components, state and effect hooks, context, controlled components, refs
 - Api object for async calls to server
 - api use to create, delete, like a card, load cards, load and edit profile info and avatar
 - import and export of modules
