@@ -18,6 +18,7 @@ export default function App() {
   const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = useState(false);
   const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = useState(false);
   const [isConfirmDeletePopupOpen, setIsConfirmDeletePopupOpen] = useState(false);
+  const [isPopupSaving, setIsPopupSaving] = useState(false);
   const [confirmDelete, setConfirmDelete] = useState(false);
   const [selectedCard, setSelectedCard] = useState(emptyCard);
   const [cardToDelete, setCardToDelete] = useState(emptyCard);
@@ -33,6 +34,7 @@ export default function App() {
     setIsConfirmDeletePopupOpen(false);
     setSelectedCard(emptyCard);
     setCardToDelete(emptyCard);
+    setIsPopupSaving(false);
   }, [emptyCard]);
 
   useEffect(() => {
@@ -47,6 +49,7 @@ export default function App() {
 
   useEffect(() => {
     if (confirmDelete) {
+      setIsPopupSaving(true);
       api.deleteCard(cardToDelete._id)
       .then(res => {
         setConfirmDelete(false);
@@ -92,6 +95,7 @@ export default function App() {
   }
 
   const handleUserUpdate = ({name, about}) => {
+    setIsPopupSaving(true);
     api.setUserInfo({name, about})
     .then(info => {
       setCurrentUser(info);
@@ -101,6 +105,7 @@ export default function App() {
   };
 
   const handleAvatarUpdate = ({avatar}) => {
+    setIsPopupSaving(true);
     api.setUserAvatar(avatar)
     .then(res => {
       const userInfo = {...currentUser};
@@ -113,7 +118,7 @@ export default function App() {
 
   const handleAddPlaceSubmit = (evt, {name, link}) => {
     evt.preventDefault();
-
+    setIsPopupSaving(true);
     api.addCard({name, link})
     .then(card => {
       const newCards = [card, ...cards];
@@ -135,11 +140,11 @@ export default function App() {
           <Main onEditProfile={handleEditProfileClick} onAddPlace={handleAddPlaceClick} onEditAvatar={handleEditAvatarClick} onCardClick={handleCardClick}
             cards={cards} onCardLike={handleCardLike} onCardDelete={handleCardDelete} />
           <Footer />
-          <EditProfilePopup isOpen={isEditProfilePopupOpen} onClose={closeAllPopups} onUpdateUser={handleUserUpdate} />
-          <AddPlacePopup isOpen={isAddPlacePopupOpen} onClose={closeAllPopups} onAddPlace={handleAddPlaceSubmit} />
-          <EditAvatarPopup isOpen={isEditAvatarPopupOpen} onClose={closeAllPopups} onUpdateAvatar={handleAvatarUpdate} />
-          <ImagePopup card={selectedCard} onClose={closeAllPopups}/>
-          <ConfirmDeletePopup isOpen={isConfirmDeletePopupOpen} onClose={closeAllPopups} onSubmit={handleConfirmDeleteSubmit} />
+          <EditProfilePopup isOpen={isEditProfilePopupOpen} onClose={closeAllPopups} onUpdateUser={handleUserUpdate} isSaving={isPopupSaving} />
+          <AddPlacePopup isOpen={isAddPlacePopupOpen} onClose={closeAllPopups} onAddPlace={handleAddPlaceSubmit} isSaving={isPopupSaving} />
+          <EditAvatarPopup isOpen={isEditAvatarPopupOpen} onClose={closeAllPopups} onUpdateAvatar={handleAvatarUpdate} isSaving={isPopupSaving} />
+          <ImagePopup card={selectedCard} onClose={closeAllPopups} />
+          <ConfirmDeletePopup isOpen={isConfirmDeletePopupOpen} onClose={closeAllPopups} onSubmit={handleConfirmDeleteSubmit} isSaving={isPopupSaving} />
       </div>
     </CurrentUserContext.Provider>
   );

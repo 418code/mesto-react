@@ -23,7 +23,7 @@ export default function AddPlacePopup(props) {
 
   return (
     <PopupWithForm name={popupConfig.profileAddPopupAndFormName} formTitle="Новое место" submitButtonText="Создать" isOpen={props.isOpen}
-        onClose={props.onClose} onSubmit={handleSubmit}>
+        onClose={props.onClose} onSubmit={handleSubmit} isSaving={props.isSaving}>
       <input id="popup__place-name-input" type="text" name="placeName"
         className="popup__form-text" placeholder="Название" minLength="2" maxLength="30" required="required" value={cardName} onChange={handleCardNameChange} />
       <span className="popup__place-name-input-error popup__form-text-error">Вы пропустили это поле.</span>

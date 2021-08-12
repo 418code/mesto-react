@@ -8,6 +8,7 @@ const popupConfig = {
   profileEditButtonSelector: '.profile__edit-button',
   profileEditPopupAndFormName: 'edit-profile',
   cardConfirmDeletePopupAndFormName: 'confirm-delete',
+  popupWithFormSavingText: 'Сохранение...',
 };
 
 const apiConfig = {

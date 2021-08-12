@@ -32,7 +32,7 @@ export default function EditProfilePopup(props) {
 
   return (
     <PopupWithForm name={popupConfig.profileEditPopupAndFormName} formTitle="Редактировать профиль" submitButtonText="Сохранить" isOpen={props.isOpen}
-      onClose={props.onClose} onSubmit={handleSubmit}>
+      onClose={props.onClose} onSubmit={handleSubmit} isSaving={props.isSaving} >
       <input id="popup__profile-name-input" type="text" name="profileName"
         className="popup__form-text" placeholder="Жак-Ив Кусто" minLength="2" maxLength="40" required="required" value={name} onChange={handleNameChange}/>
       <span className="popup__profile-name-input-error popup__form-text-error">Вы пропустили это поле.</span>
