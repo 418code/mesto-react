@@ -7,7 +7,7 @@ export default function PopupWithForm(props) {
         <button className="popup__container-close-btn transparent transparent_amount_more" type="button" aria-label="Кнопка закрытия попапа"
          onClick={props.onClose}></button>
         <form name={props.name} className="popup__form" noValidate onSubmit={props.onSubmit}>
-          <h2 className="popup__form-title">{props.formTitle}</h2>
+          <h2 className={`popup__form-title ${props.onlyTitle ? 'popup__form-title_onlytitle' : ''}`}>{props.formTitle}</h2>
           {props.children}
           <button className="popup__form-submit-btn" type="submit">{props.submitButtonText}</button>
         </form>

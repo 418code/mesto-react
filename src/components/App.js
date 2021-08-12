@@ -1,4 +1,4 @@
-import {useEffect, useState} from 'react';
+import {useEffect, useState, useCallback, useMemo} from 'react';
 import { api } from '../utils/Api.js';
 import Header from './Header';
 import Main from './Main';
@@ -6,24 +6,34 @@ import Footer from './Footer';
 import EditProfilePopup from './EditProfilePopup';
 import EditAvatarPopup from './EditAvatarPopup';
 import AddPlacePopup from './AddPlacePopup';
-import PopupWithForm from './PopupWithForm';
+import ConfirmDeletePopup from './ConfirmDeletePopup';
 import ImagePopup from './ImagePopup';
-import {popupConfig} from '../utils/constants.js';
 import { CurrentUserContext } from '../contexts/CurrentUserContext';
 
 export default function App() {
 
-  const emptyCard = {link: '', name: ''};
+  const emptyCard = useMemo (() => ({link: '', name: '', likes: [], _id: '', createdAt: '', owner: ''}), []);
 
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
   const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = useState(false);
   const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = useState(false);
   const [isConfirmDeletePopupOpen, setIsConfirmDeletePopupOpen] = useState(false);
+  const [confirmDelete, setConfirmDelete] = useState(false);
   const [selectedCard, setSelectedCard] = useState(emptyCard);
+  const [cardToDelete, setCardToDelete] = useState(emptyCard);
 
   //context state variables
   const [currentUser, setCurrentUser] = useState({name: '', about: '', avatar: '', _id: '', cohort: ''});
   const [cards, setCards] = useState([]);
+
+  const closeAllPopups = useCallback (() => {
+    setIsEditProfilePopupOpen(false);
+    setIsAddPlacePopupOpen(false);
+    setIsEditAvatarPopupOpen(false);
+    setIsConfirmDeletePopupOpen(false);
+    setSelectedCard(emptyCard);
+    setCardToDelete(emptyCard);
+  }, [emptyCard]);
 
   useEffect(() => {
     //get api data on mount in parallel and put it in react state variables
@@ -34,6 +44,19 @@ export default function App() {
     })
     .catch(err => {console.log(err)});
   }, []);
+
+  useEffect(() => {
+    if (confirmDelete) {
+      api.deleteCard(cardToDelete._id)
+      .then(res => {
+        setConfirmDelete(false);
+        const newCards = cards.filter(c => c._id !== cardToDelete._id);
+        setCards(newCards);
+        closeAllPopups();
+      })
+      .catch(err => console.log(err));
+    }
+  }, [confirmDelete, cardToDelete._id, cards, closeAllPopups]);
 
 
   const handleEditAvatarClick = () => {
@@ -64,12 +87,8 @@ export default function App() {
   }
 
   function handleCardDelete(card) {
-    api.deleteCard(card._id)
-    .then(res => {
-      const newCards = cards.filter(c => c._id != card._id);
-      setCards(newCards);
-    })
-    .catch(err => console.log(err));
+    setIsConfirmDeletePopupOpen(true);
+    setCardToDelete(card);
   }
 
   const handleUserUpdate = ({name, about}) => {
@@ -104,12 +123,9 @@ export default function App() {
     .catch(err => {console.log(err)});
   };
 
-  const closeAllPopups = () => {
-    setIsEditProfilePopupOpen(false);
-    setIsAddPlacePopupOpen(false);
-    setIsEditAvatarPopupOpen(false);
-    setIsConfirmDeletePopupOpen(false);
-    setSelectedCard(emptyCard);
+  const handleConfirmDeleteSubmit = (evt) => {
+    evt.preventDefault();
+    setConfirmDelete(true);
   };
 
   return (
@@ -122,9 +138,8 @@ export default function App() {
           <EditProfilePopup isOpen={isEditProfilePopupOpen} onClose={closeAllPopups} onUpdateUser={handleUserUpdate} />
           <AddPlacePopup isOpen={isAddPlacePopupOpen} onClose={closeAllPopups} onAddPlace={handleAddPlaceSubmit} />
           <EditAvatarPopup isOpen={isEditAvatarPopupOpen} onClose={closeAllPopups} onUpdateAvatar={handleAvatarUpdate} />
-          <PopupWithForm name={popupConfig.cardConfirmDeletePopupAndFormName} formTitle="Вы уверены?" submitButtonText="Да" isOpen={isConfirmDeletePopupOpen}
-            onClose={closeAllPopups} />
           <ImagePopup card={selectedCard} onClose={closeAllPopups}/>
+          <ConfirmDeletePopup isOpen={isConfirmDeletePopupOpen} onClose={closeAllPopups} onSubmit={handleConfirmDeleteSubmit} />
       </div>
     </CurrentUserContext.Provider>
   );
