@@ -1,5 +1,5 @@
 import {useEffect, useState, useCallback, useMemo} from 'react';
-import { api } from '../utils/Api.js';
+import api  from '../utils/api';
 import Header from './Header';
 import Main from './Main';
 import Footer from './Footer';

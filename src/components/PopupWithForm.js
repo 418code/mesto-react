@@ -1,4 +1,4 @@
-import { popupConfig } from "../utils/constants.js";
+import { popupConfig } from "../utils/utils";
 
 export default function PopupWithForm(props) {
   return (

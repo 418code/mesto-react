@@ -1,4 +1,4 @@
-import {apiConfig} from './constants.js';
+import { apiConfig } from './utils';
 
 class Api {
   constructor(options) {
@@ -100,4 +100,4 @@ const api = new Api({
   }
 });
 
-export {api};
+export default api;

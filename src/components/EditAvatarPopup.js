@@ -1,4 +1,4 @@
-import { popupConfig } from "../utils/constants";
+import { popupConfig } from "../utils/utils";
 import { useRef } from 'react';
 import PopupWithForm from "./PopupWithForm";
 

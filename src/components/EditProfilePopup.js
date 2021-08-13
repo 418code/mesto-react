@@ -1,4 +1,4 @@
-import { popupConfig } from '../utils/constants';
+import { popupConfig } from '../utils/utils';
 import { useState, useContext, useEffect } from 'react';
 import { CurrentUserContext } from '../contexts/CurrentUserContext';
 import PopupWithForm from "./PopupWithForm";
