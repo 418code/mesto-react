@@ -1,4 +1,4 @@
-import {useEffect, useState, useCallback, useMemo} from 'react';
+import { useEffect, useState } from 'react';
 import api  from '../utils/api';
 import Header from './Header';
 import Main from './Main';
@@ -12,14 +12,13 @@ import { CurrentUserContext } from '../contexts/CurrentUserContext';
 
 export default function App() {
 
-  const emptyCard = useMemo (() => ({link: '', name: '', likes: [], _id: '', createdAt: '', owner: ''}), []);
+  const emptyCard = {link: '', name: '', likes: [], _id: '', createdAt: '', owner: ''};
 
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
   const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = useState(false);
   const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = useState(false);
   const [isConfirmDeletePopupOpen, setIsConfirmDeletePopupOpen] = useState(false);
   const [isPopupSaving, setIsPopupSaving] = useState(false);
-  const [confirmDelete, setConfirmDelete] = useState(false);
   const [selectedCard, setSelectedCard] = useState(emptyCard);
   const [cardToDelete, setCardToDelete] = useState(emptyCard);
 
@@ -27,15 +26,14 @@ export default function App() {
   const [currentUser, setCurrentUser] = useState({name: '', about: '', avatar: '', _id: '', cohort: ''});
   const [cards, setCards] = useState([]);
 
-  const closeAllPopups = useCallback (() => {
+  const closeAllPopups = () => {
     setIsEditProfilePopupOpen(false);
     setIsAddPlacePopupOpen(false);
     setIsEditAvatarPopupOpen(false);
     setIsConfirmDeletePopupOpen(false);
     setSelectedCard(emptyCard);
     setCardToDelete(emptyCard);
-    setIsPopupSaving(false);
-  }, [emptyCard]);
+  };
 
   useEffect(() => {
     //get api data on mount in parallel and put it in react state variables
@@ -46,21 +44,6 @@ export default function App() {
     })
     .catch(err => {console.log(err)});
   }, []);
-
-  useEffect(() => {
-    if (confirmDelete) {
-      setIsPopupSaving(true);
-      api.deleteCard(cardToDelete._id)
-      .then(res => {
-        setConfirmDelete(false);
-        const newCards = cards.filter(c => c._id !== cardToDelete._id);
-        setCards(newCards);
-        closeAllPopups();
-      })
-      .catch(err => console.log(err));
-    }
-  }, [confirmDelete, cardToDelete._id, cards, closeAllPopups]);
-
 
   const handleEditAvatarClick = () => {
     setIsEditAvatarPopupOpen(true);
@@ -101,7 +84,8 @@ export default function App() {
       setCurrentUser(info);
       closeAllPopups();
     })
-    .catch(err => {console.log(err)});
+    .catch(err => {console.log(err)})
+    .finally(() => {setIsPopupSaving(false)});
   };
 
   const handleAvatarUpdate = ({avatar}) => {
@@ -113,7 +97,8 @@ export default function App() {
       setCurrentUser(userInfo);
       closeAllPopups();
     })
-    .catch(err => {console.log(err)});
+    .catch(err => {console.log(err)})
+    .finally(() => {setIsPopupSaving(false)});
   };
 
   const handleAddPlaceSubmit = (evt, {name, link}) => {
@@ -121,16 +106,23 @@ export default function App() {
     setIsPopupSaving(true);
     api.addCard({name, link})
     .then(card => {
-      const newCards = [card, ...cards];
-      setCards(newCards);
+      setCards(cards => [card, ...cards]);
       closeAllPopups();
     })
-    .catch(err => {console.log(err)});
+    .catch(err => {console.log(err)})
+    .finally(() => {setIsPopupSaving(false)});
   };
 
   const handleConfirmDeleteSubmit = (evt) => {
     evt.preventDefault();
-    setConfirmDelete(true);
+    setIsPopupSaving(true);
+    api.deleteCard(cardToDelete._id)
+    .then(res => {
+      setCards(cards => cards.filter(c => c._id !== cardToDelete._id));
+      closeAllPopups();
+    })
+    .catch(err => console.log(err))
+    .finally(() => {setIsPopupSaving(false)});
   };
 
   return (

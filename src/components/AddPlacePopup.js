@@ -1,11 +1,18 @@
 import { popupConfig } from "../utils/utils";
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import PopupWithForm from "./PopupWithForm";
 
 export default function AddPlacePopup(props) {
 
   const [cardName, setCardName] = useState('');
   const [cardUrl, setCardUrl] = useState('');
+
+  useEffect(() => {
+    if (props.isOpen === false) {
+      setCardName('');
+      setCardUrl('');
+    }
+  }, [props.isOpen]);
 
   const handleCardNameChange = (e) => {
     setCardName(e.target.value);
@@ -17,8 +24,6 @@ export default function AddPlacePopup(props) {
 
   const handleSubmit = (evt) => {
     props.onAddPlace(evt, {name: cardName, link: cardUrl});
-    setCardName('');
-    setCardUrl('');
   };
 
   return (
