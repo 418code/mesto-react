@@ -1,5 +1,7 @@
 # Проект Mesto React - Яндекс Практикум факультет веб разработки
 
+[Демо на github pages](https://bliss-code.github.io/mesto-react)
+
 [English](./README.md)
 
 ## Описание

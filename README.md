@@ -1,5 +1,7 @@
 # Project Mesto React (The Place) - Yandex Practicum web development program
 
+[Demo @ github pages](https://bliss-code.github.io/mesto-react)
+
 [По-русски](./README-RU.md)
 
 ## Description
