@@ -1,6 +1,6 @@
 # Project Mesto React (The Place) - Yandex Practicum web development program
 
-[Demo @ github pages](https://bliss-code.github.io/mesto-react)
+[Demo @ github pages](https://418code.github.io/mesto-react)
 
 [По-русски](./README-RU.md)
 
@@ -12,7 +12,7 @@ Sprints: 10 -
 ## Technologies used
 
 JavaScript
-- refactor [sprints 4-9](https://github.com/bliss-code/mesto/) objective JavaScript web app with React
+- refactor [sprints 4-9](https://github.com/418code/mesto/) objective JavaScript web app with React
 - React: CRA, functional components, state and effect hooks, context, controlled components, refs
 - Api object for async calls to server
 - api use to create, delete, like a card, load cards, load and edit profile info and avatar
@@ -47,7 +47,7 @@ BEM
 - CSS classes organized according to Block Element Modifier system
 - files organized with BEM nested file structure
 - CSS files imported from BEM folders with @import
-- [DIY bash script for dealing with nested BEM file structure](https://github.com/bliss-code/instruments)
+- [DIY bash script for dealing with nested BEM file structure](https://github.com/418code/instruments)
 
 Git
 - gitflow workflow
